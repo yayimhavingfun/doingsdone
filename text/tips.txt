@@ -1,0 +1,28 @@
+3.7 not completed
+4.1 partially completed
+
+
+foreach ($tasks_main as $t) {
+    if ($_GET['check'] == $t['id']) {
+        $check = $_GET['task_id'];
+
+        $sql = "SELECT title FROM tasks t WHERE $check = t.id";
+        $res = mysqli_query($con, $sql);
+        if ($res) {
+            $checked = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        } else {
+            $error = "cannot complete query:" . mysqli_error($con);
+            print($error);
+        }
+
+        $sql2 = "UPDATE tasks SET status = 1 WHERE title = $checked";
+        $res = mysqli_query($con, $sql2);
+        if ($res) {
+            header("Location: index.php");
+        } else {
+            $error = "cannot complete query:" . mysqli_error($con);
+            print($error);
+        }
+    }
+}
+
