@@ -60,6 +60,7 @@ if ($_GET['filter'] == 'yesterday') {
     }
 }
 
+
 if (empty($_SESSION)) {
     $guest_content = include_template('guest.php',[]);
     $layout_content = include_template('layout.php',[
