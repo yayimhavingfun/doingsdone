@@ -10,7 +10,7 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
+            <a href="/index.php?filter=all" class="tasks-switch__item <?= isset($_GET['filter']) && $_GET['filter'] == 'all' ? "tasks-switch__item--active" : "" ?>">Все задачи</a>
             <a href="/index.php?filter=today" class="tasks-switch__item <?= isset($_GET['filter']) && $_GET['filter'] == 'today' ? "tasks-switch__item--active" : "" ?>">Повестка дня</a>
             <a href="/index.php?filter=tomorrow" class="tasks-switch__item <?= isset($_GET['filter']) && $_GET['filter'] == 'tomorrow' ? "tasks-switch__item--active" : "" ?>">Завтра</a>
             <a href="/index.php?filter=yesterday" class="tasks-switch__item <?= isset($_GET['filter']) && $_GET['filter'] == 'yesterday' ? "tasks-switch__item--active" : "" ?>">Просроченные</a>

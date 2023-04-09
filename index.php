@@ -1,10 +1,13 @@
 <?php
+ini_set("display_errors", '1');
+ini_set("display_startup_errors", '1');
+error_reporting(E_ALL);
+
 require_once("functions/helpers.php");
 require_once("functions/functions.php");
 require_once("init.php");
 
 session_start();
-print_r($show_complete_tasks);
 
 $search = $_GET['search'];
 $sql = "SELECT * FROM tasks WHERE MATCH(title) AGAINST ('$search')";
