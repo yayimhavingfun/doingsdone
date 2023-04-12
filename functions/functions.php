@@ -13,23 +13,16 @@ function count_projects(array $tasks, $project_name): int
 }
 // counts the difference between dates and lights up the expiring in 24h ones
 
-function get_hours_left ($date) {
+function get_hours_left ($date): float|int|string
+{
     $post_date = date_create($date);
-    $cur_date = date_create("now");
+    $cur_date = date_create();
     $diff = date_diff($cur_date, $post_date);
     $format_diff = date_interval_format($diff, "%d %H %I" );
     $arr = explode(" ", $format_diff);
-    $left = $arr[0] * 24 + $arr[1];
-    return $left;
+    return $arr[0] * 24 + $arr[1];
 }
 
-// creates a url
-
-function make_url(array $params): string
-{
-    $params = "SELECT id FROM projects";
-    return "/" . pathinfo("index.php", PATHINFO_BASENAME) . "?" . http_build_query($params);
-}
 
 // saves the text in a form
 function get_post_val($name){
@@ -68,7 +61,8 @@ function validate_date($date_str, string $cur_date)
 }
 
 //saves files
-function save_file() {
+function save_file(): ?string
+{
     $name = $_FILES["file"]["name"];
     $path = __DIR__ . '/uploads/';
 
@@ -105,8 +99,8 @@ function validate_project_name($con, $name) {
     }
 }
 
-function get_user($con, $email): ?array
-{
+function get_user($con, $email) {
+
     $sql = "SELECT * FROM users WHERE email = ?";
 
     $stmt = db_get_prepare_stmt($con, $sql, ["email" => $email]);
@@ -116,7 +110,7 @@ function get_user($con, $email): ?array
     $result = mysqli_stmt_get_result($stmt);
 
     if (!$result) {
-        $error = mysqli_error($con);
+        return mysqli_error($con);
     }
 
     $user = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -134,24 +128,4 @@ function check_password($form_password, $user): ?string
     }
 
     return "Неверный пароль";
-}
-
-function send_email() {
-    $sql = "SELECT title, date_finish FROM tasks WHERE status = 0 AND date_finish = CURDATE()";
-    $res = mysqli_query($con, $sql);
-    if ($res) {
-        $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    } else {
-        $error = "cannot complete query:" . mysqli_error($con);
-        print($error);
-    }
-
-    foreach ($tasks as $t) {
-        if (get_hours_left($t['date_finish']) <= 24 && $t['status'] !== 1) {
-            $message = "Уважаемый, " . $_SESSION['name'] . ", У вас запланирована задача " . $t['title'] . " на " . $t['date_finish'];
-            $subject = "Уведомление от сервиса «Дела в порядке»";
-            $mail = mail($_SESSION['email'], $subject, $message);
-        }
-    }
-
 }
