@@ -5,7 +5,9 @@
         <ul class="main-navigation__list">
             <?php foreach ($projects as $project) : ?>
             <?php if ($_SESSION['id'] === (int)$project['user_id']) : ?>
-                <li class="main-navigation__list-item <?php if ($project['id'] == $_GET['project_id']):?> main-navigation__list-item--active <? endif; ?>">
+                <li class="main-navigation__list-item <?php if (isset($_GET['project_id'])) {
+                    if ($project['id'] == ($_GET['project_id'])):?> main-navigation__list-item--active <? endif;
+                } ?>">
                     <a class="main-navigation__list-item-link" href="/index.php?project_id=<?= $project['id']?>"><?= htmlspecialchars($project['name']) ?></a>
                     <span class="main-navigation__list-item-count"><?= count_projects($tasks_sb, $project['id']);?></span>
                 </li>

@@ -24,11 +24,12 @@
     </div>
 
     <table class="tasks">
+
         <?php foreach ($tasks_main as $task) : ?>
         <?php if ($show_complete_tasks == 0 && $task['status'] == 1) {
             continue;} ?>
             <?php if ($_SESSION['id'] === (int)$task['user_id']) : ?>
-            <?php if ($task['project_id'] == $_GET['project_id'] || empty($_GET['project_id'])) : ?>
+            <?php if ($task['project_id'] == ($_GET['project_id'] ?? null) || empty($_GET['project_id'])) : ?>
             <tr class="tasks__item task
                 <?php if ($task['status'] == 1) : ?> task--completed <?php endif; ?>
                 <?php if ($task['date_finish'] !== null && get_hours_left($task['date_finish']) <= 24) : ?> task--important <?php endif; ?>">
@@ -45,7 +46,7 @@
                 </td>
                 <td class="task__date"><?= $task['date_finish'] ?></td>
             </tr>
-            <?php elseif ($_GET['project_id'] > count($projects)) : {
+            <?php elseif (($_GET['project_id'] ?? "") > count($projects)) : {
                 http_response_code(404);
             }?>
             <?php endif; ?>

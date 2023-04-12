@@ -7,10 +7,8 @@ require_once("functions/helpers.php");
 require_once("functions/functions.php");
 require_once("init.php");
 
-session_start();
 
-
-$search = $_GET['search'];
+$search = $_GET['search'] ?? null;
 $sql = "SELECT * FROM tasks WHERE MATCH(title) AGAINST ('$search')";
 $res = mysqli_query($con, $sql);
 if ($res) {
@@ -31,39 +29,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 }
 
-if ($_GET['filter'] == 'today') {
-    $sql = "SELECT * FROM tasks WHERE date_finish = CURDATE()";
-    $res = mysqli_query($con, $sql);
-    if ($res) {
-        $tasks_main = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    } else {
-        $error = "cannot complete query:" . mysqli_error($con);
-        print($error);
+if (isset($_GET['filter'])) {
+    if ($_GET['filter'] == 'today') {
+        $sql = "SELECT * FROM tasks WHERE date_finish = CURDATE()";
+        $res = mysqli_query($con, $sql);
+        if ($res) {
+            $tasks_main = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        } else {
+            $error = "cannot complete query:" . mysqli_error($con);
+            print($error);
+        }
+    }
+
+
+    if ($_GET['filter'] == 'tomorrow') {
+        $sql = "SELECT * FROM tasks WHERE DATEDIFF(date_finish, CURDATE()) = 1";
+        $res = mysqli_query($con, $sql);
+        if ($res) {
+            $tasks_main = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        } else {
+            $error = "cannot complete query:" . mysqli_error($con);
+            print($error);
+        }
+    }
+
+    if ($_GET['filter'] == 'yesterday') {
+        $sql = "SELECT * FROM tasks WHERE DATEDIFF(date_finish, CURDATE()) < -1";
+        $res = mysqli_query($con, $sql);
+        if ($res) {
+            $tasks_main = mysqli_fetch_all($res, MYSQLI_ASSOC);
+        } else {
+            $error = "cannot complete query:" . mysqli_error($con);
+            print($error);
+        }
     }
 }
-
-if ($_GET['filter'] == 'tomorrow') {
-    $sql = "SELECT * FROM tasks WHERE DATEDIFF(date_finish, CURDATE()) = 1";
-    $res = mysqli_query($con, $sql);
-    if ($res) {
-        $tasks_main = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    } else {
-        $error = "cannot complete query:" . mysqli_error($con);
-        print($error);
-    }
-}
-
-if ($_GET['filter'] == 'yesterday') {
-    $sql = "SELECT * FROM tasks WHERE DATEDIFF(date_finish, CURDATE()) < -1";
-    $res = mysqli_query($con, $sql);
-    if ($res) {
-        $tasks_main = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    } else {
-        $error = "cannot complete query:" . mysqli_error($con);
-        print($error);
-    }
-}
-
 
 if (empty($_SESSION)) {
     $guest_content = include_template('guest.php',[]);
@@ -84,7 +84,7 @@ if (empty($_SESSION)) {
         "show_complete_tasks" => $show_complete_tasks,
         "sidebar" => $sidebar,
         "tasks_src" => $tasks_src,
-        "search_empty_response" => $search_empty_response,
+        "search_empty_response" => $search_empty_response ?? null,
     ]);
 
     $layout_content = include_template("layout.php", [

@@ -8,8 +8,6 @@ require_once("functions/helpers.php");
 require_once("functions/functions.php");
 
 
-session_start();
-
 if (empty($_SESSION)) {
     $guest_content = include_template('guest.php',[]);
     $layout_content = include_template('layout.php',[
@@ -26,7 +24,7 @@ if (empty($_SESSION)) {
         "projects" => $projects,
         "tasks" => $tasks,
         "sidebar" => $sidebar,
-        "errors" => $errors,
+        "errors" => $errors ?? null,
     ]);
 
     $layout_content = include_template("layout.php", [

@@ -8,9 +8,6 @@ require_once("init.php");
 require_once("functions/helpers.php");
 require_once("functions/functions.php");
 
-session_start();
-
-
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $project_form = filter_input_array(INPUT_POST, ["name" => FILTER_DEFAULT, "user_id" => FILTER_DEFAULT]);
@@ -64,7 +61,7 @@ if (empty($_SESSION)) {
 
     $add_p_content = include_template("form-project.php", [
         "sidebar" => $sidebar,
-        "errors" => $errors,
+        "errors" => $errors ?? null,
     ]);
 
     $layout_content = include_template("layout.php", [

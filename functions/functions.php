@@ -99,7 +99,7 @@ function validate_project_name($con, $name) {
     } else {
         $error = "cannot complete query:" . mysqli_error($con);
         print($error);
-    };
+    }
     if (!empty($projects_src)) {
         return "Такой проект уже существует";
     }

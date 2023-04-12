@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 $auth_content = include_template("auth_tmp.php", [
-    "errors" => $errors,
+    "errors" => $errors ?? null,
 ]);
 
 $layout_content = include_template("layout.php", [

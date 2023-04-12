@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 session_start();
 $projects_id = [];
 $show_complete_tasks = rand(0, 1);
-$s_id = $_SESSION['id'];
+$s_id = $_SESSION['id'] ?? null;
 
 $con = mysqli_connect('localhost', 'root', '', 'doingsdone');
 mysqli_set_charset($con, "utf8");
