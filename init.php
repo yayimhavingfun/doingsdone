@@ -17,7 +17,7 @@ if (!$con) {
     print($error);
 }
 
-$user_query = "SELECT id FROM users u WHERE u.id = $s_id";
+$user_query = "SELECT id FROM users u WHERE u.id = '$s_id'";
 $user_res = mysqli_query($con, $user_query);
 if ($user_query) {
     $user_id = mysqli_fetch_all($user_res, MYSQLI_ASSOC);
@@ -27,8 +27,7 @@ if ($user_query) {
 }
 
 
-
-$sql = "SELECT id, user_id, name FROM projects p WHERE p.user_id = $s_id";
+$sql = "SELECT id, user_id, name FROM projects p WHERE p.user_id = '$s_id'";
 $res = mysqli_query($con, $sql);
 if ($res) {
     $projects = mysqli_fetch_all($res, MYSQLI_ASSOC);
@@ -41,8 +40,7 @@ if ($res) {
 }
 
 
-
-$sql = "SELECT * FROM tasks t WHERE t.user_id = $s_id";
+$sql = "SELECT * FROM tasks t WHERE t.user_id = '$s_id'";
 $res = mysqli_query($con, $sql);
 if ($res) {
     $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
@@ -53,6 +51,8 @@ if ($res) {
 
 $tasks_sb = $tasks;
 $tasks_main = $tasks;
+
+
 
 
 

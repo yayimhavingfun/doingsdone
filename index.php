@@ -9,6 +9,7 @@ require_once("init.php");
 
 session_start();
 
+
 $search = $_GET['search'];
 $sql = "SELECT * FROM tasks WHERE MATCH(title) AGAINST ('$search')";
 $res = mysqli_query($con, $sql);
