@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 $reg_content = include_template("register_tmp.php", [
-    "errors" => $errors,
+    "errors" => $errors ?? null,
 ]);
 
 $layout_content = include_template("layout.php", [
