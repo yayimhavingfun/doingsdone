@@ -11,7 +11,7 @@ require_once("functions/helpers.php");
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $reg_form = filter_input_array(INPUT_POST, ["email" => FILTER_DEFAULT, "password" => FILTER_DEFAULT,
-        "name" => FILTER_DEFAULT], true);
+        "name" => FILTER_DEFAULT]);
 
     $required = ['email', 'password', 'name'];
     $errors = [];
@@ -22,19 +22,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     ];
 
-    foreach ($reg_form as $key => $value) {
-        if (isset($rules[$key])) {
-            $rule = $rules[$key];
-            $errors[$key] = $rule($value);
-        }
-        if (in_array($key, $required) && empty($value)) {
-            $errors[$key] = $rule($value);
+    if (isset($reg_form)) {
+        foreach ($reg_form as $key => $value) {
+            if (isset($rules[$key])) {
+                $rule = $rules[$key];
+                $errors[$key] = $rule($value);
+            }
+            if (in_array($key, $required) && empty($value)) {
+                $errors[$key] = $rule($value);
+            }
         }
     }
 
     $errors = array_filter($errors);
-
-    $reg_form['password'] = password_hash($reg_form['password'], PASSWORD_DEFAULT);
+    if (isset($reg_form)) {
+        $reg_form['password'] = password_hash($reg_form['password'], PASSWORD_DEFAULT);
+    }
 
     if (empty($errors)) {
         $sql = "INSERT INTO users (email, password, name, date_created)

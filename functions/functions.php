@@ -1,11 +1,14 @@
-<?php
-require_once('init.php');
+<?php /** @noinspection ALL */
+
+use JetBrains\PhpStorm\Pure;
+
+require_once 'init.php';
 // counts the number of projects in a sidebar
 function count_projects(array $tasks, $project_name): int
 {
     $i = 0;
     foreach ($tasks as $task) {
-        if ($task['project_id'] == $project_name){
+        if ($task['project_id'] == $project_name) {
             $i++;
         }
     }

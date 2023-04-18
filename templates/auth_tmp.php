@@ -11,11 +11,12 @@
     <form class="form" method="post" autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
-            <?php if (isset($errors)) {
-                $classname = $errors["email"] ? "form__input--error" : "";
+            <?php if (isset($errors['email'])) {
+                $classname = $errors["email"] ? "form__input--error" : null;
             } ?>
-            <input class="form__input <?= $classname;?>" type="text" name="email" id="email" value="<?=get_post_val('email');?>" placeholder="Введите e-mail">
-            <?php if (isset($errors)) {
+            <input class="form__input <?php if (isset($classname)) {echo $classname;} ?>"
+           type="text" name="email" id="email" value="<?=get_post_val('email');?>" placeholder="Введите e-mail">
+            <?php if (isset($errors['email'])) {
                 if ($errors["email"]) : ?>
                     <p class="form__message"><?= $errors["email"];?></p>
                 <?php endif;
@@ -24,11 +25,11 @@
 
         <div class="form__row">
             <label class="form__label" for="password">Пароль <sup>*</sup></label>
-            <?php if (isset($errors)) {
+            <?php if (isset($errors['password'])) {
                 $classname = $errors["password"] ? "form__input--error" : "";
             } ?>
-            <input class="form__input <?= $classname;?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
-            <?php if (isset($errors)) {
+            <input class="form__input <?php if (isset($classname)) {echo $classname;}?>" type="password" name="password" id="password" value="" placeholder="Введите пароль">
+            <?php if (isset($errors['password'])) {
                 if ($errors["password"]) : ?>
                     <p class="form__message"><?= $errors["password"];?></p>
                 <?php endif;

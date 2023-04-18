@@ -19,7 +19,9 @@ if ($res) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $search = trim($search);
+    if ($search != null) {
+        $search = trim($search);
+    }
     if ($search) {
         $tasks_main = $tasks_src;
 
