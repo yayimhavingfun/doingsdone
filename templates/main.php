@@ -44,11 +44,8 @@
                         <a class="download-link" href="<?=htmlspecialchars($task['file'])?>"><?=htmlspecialchars($task['title'])?></a>
                     <?php endif; ?>
                 </td>
-                <td class="task__date"><?= strip_tags($task['date_finish']) ?></td>
+                <td class="task__date"><?php if (isset($task['date_finish'])) {echo htmlspecialchars($task['date_finish']);} ?></td>
             </tr>
-            <?php elseif (($_GET['project_id'] ?? "") > count($projects)) : {
-                http_response_code(404);
-            }?>
             <?php endif; ?>
             <?php endif; ?>
         <?php endforeach; ?>
