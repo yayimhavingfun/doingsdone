@@ -18,6 +18,17 @@ if ($res) {
     print($error);
 }
 
+if (isset($_GET['show_completed'])) {
+    if ($_GET['show_completed'] === '1') {
+        $show_complete_tasks = 1;
+    }
+}
+
+if (isset($_GET['check']) and isset($_GET['task_id'])) {
+    $status = intval($_GET['check']);
+    $task_id = intval($_GET['task_id']);
+    mysqli_query($con, "UPDATE tasks SET status = '$status'  WHERE id = '$task_id'");
+}
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if ($search != null) {
         $search = trim($search);

@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 session_start();
 $projects_id = [];
-$show_complete_tasks = rand(0, 1);
+$show_complete_tasks = 0;
 $s_id = $_SESSION['id'] ?? null;
 
 $con = mysqli_connect('localhost', 'root', '', 'doingsdone');
@@ -40,17 +40,22 @@ if ($res) {
 }
 
 
+
 $sql = "SELECT * FROM tasks t WHERE t.user_id = '$s_id'";
 $res = mysqli_query($con, $sql);
 if ($res) {
     $tasks = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    $tasks_id = array_column($tasks, 'id');
 } else {
     $error = "cannot complete query:" . mysqli_error($con);
     print($error);
 }
 
+
+
 $tasks_sb = $tasks;
 $tasks_main = $tasks;
+
 
 
 
